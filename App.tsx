@@ -1,10 +1,34 @@
-import { StyleSheet, Text, View } from 'react-native';
+import { useState } from 'react';
+import { StyleSheet, Text, View, Button } from 'react-native';
 
 export default function App() {
+  const [name, setName] = useState<string>('Hiếu')
+  const [number, setNumber] = useState<number>(0)
   return (
     <View style={styles.container}>
-      <Text style={styles.hello1}>Hello world 1!</Text>
-      <Text>Hello world 2!</Text>
+      <Text style={styles.text}>Hello {name}!</Text>
+      <Text>My number is {number}</Text>
+      <View style={styles.buttonGroup}>
+        <Button
+          onPress={() => {
+            setNumber((old) => old + 1)
+          }}
+          title='Plus 1'
+        />
+        <Button
+          onPress={() => {
+            setNumber((old) => old - 1)
+          }}
+          title='Minus 1'
+        />
+        <Button
+          onPress={() => {
+            setNumber(0)
+          }}
+          title='Reset'
+          color={'violet'}
+        />
+      </View>
     </View>
   );
 }
@@ -16,11 +40,19 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  hello1: {
-    color: 'red', fontSize: 30,
-    borderColor: 'green',
-    borderWidth: 1,
-    padding: 10,
-    fontWeight: '600'
+  text: {
+    fontSize: 20,
+    fontWeight: '600',
+    color: 'red'
+  },
+  buttonGroup: {
+    marginTop: 10,
+    flexDirection: 'row',
+    gap: 2,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  buttonRed: {
+    color: 'red'
   }
 });
