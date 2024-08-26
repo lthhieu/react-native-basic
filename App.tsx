@@ -1,11 +1,14 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput } from 'react-native';
 
 export default function App() {
   const [name, setName] = useState<string>('Hiếu')
   const [number, setNumber] = useState<number>(0)
   return (
     <View style={styles.container}>
+      <TextInput style={{
+        borderColor: 'green', borderWidth: 1, width: 200, padding: 15
+      }} onChangeText={(text) => setNumber(+text)} multiline keyboardType='numeric' maxLength={2} />
       <Text style={styles.text}>Hello {name}!</Text>
       <Text>My number is {number}</Text>
       <View style={styles.buttonGroup}>
@@ -23,7 +26,8 @@ export default function App() {
         />
         <Button
           onPress={() => {
-            setNumber(0)
+            // setNumber(0)
+            alert('Hi')
           }}
           title='Reset'
           color={'violet'}
@@ -48,7 +52,7 @@ const styles = StyleSheet.create({
   buttonGroup: {
     marginTop: 10,
     flexDirection: 'row',
-    gap: 2,
+    gap: 4,
     alignItems: 'center',
     justifyContent: 'center',
   },
