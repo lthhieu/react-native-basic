@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList } from 'react-native';
 
 interface IStudents {
   id: number, name: string, age: number
@@ -24,16 +24,25 @@ export default function App() {
     { id: 15, name: 'Hieu15', age: 18 },
     { id: 16, name: 'Hieu16', age: 18 },
   ])
+  const renderItem = ({ item }: { item: IStudents }) => {
+    return (<View style={styles.view}>
+      <Text>{item.name}</Text>
+    </View>)
+  }
   return (
     <View style={styles.container}>
       <Text style={styles.title}>Hello world</Text>
-      <ScrollView>
+      <FlatList
+        data={students}
+        keyExtractor={item => item.id + ''}
+        renderItem={renderItem}></FlatList>
+      {/* <ScrollView>
         {students.map((item) => {
           return (<View style={styles.view} key={item.id}>
             <Text>{item.name}</Text>
           </View>)
         })}
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 }
