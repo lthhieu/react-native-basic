@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList, TouchableOpacity } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList, Pressable } from 'react-native';
 
 interface ITodo {
   id: number,
@@ -15,14 +15,17 @@ export default function App() {
     ]);
     setTodo('')
   }
-  const removeTodo = (item: ITodo) => {
-    setTodos(todos.filter(el => { return el.id != item.id }))
+  const removeTodo = (id: number) => {
+    setTodos(todos.filter(el => { return el.id !== id }))
   }
   const renderItem = ({ item }: { item: ITodo }) => {
     return (
-      <Text onPress={() => {
-        removeTodo(item)
-      }} style={styles.view}>{item.name}</Text>
+      <Pressable style={(({ pressed }) => ({ opacity: pressed ? 0.5 : 1 }))} onPress={() => {
+        removeTodo(item.id)
+      }}>
+        <Text style={styles.view}>{item.name}</Text>
+      </Pressable>
+
     );
   };
   return (
@@ -32,9 +35,9 @@ export default function App() {
         <TextInput style={styles.input} placeholder='New todo'
           onChangeText={setTodo}
           value={todo} />
-        <TouchableOpacity style={styles.addNewTodoButton} onPress={() => { addNewTodo(todo) }}>
+        <Pressable style={styles.addNewTodoButton} onPress={() => { addNewTodo(todo) }}>
           <Text style={styles.textAddNew}>Add todo</Text>
-        </TouchableOpacity>
+        </Pressable>
       </View>
       <FlatList
         style={styles.body2}
