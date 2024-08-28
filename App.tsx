@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList, Pressable } from 'react-native';
+import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList, Pressable, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
 
 interface ITodo {
   id: number,
@@ -9,7 +9,12 @@ export default function App() {
   const [todo, setTodo] = useState<string>('')
   const [todos, setTodos] = useState<ITodo[]>([])
   const addNewTodo = (newTodo: string) => {
-    if (newTodo === '') { alert('Please type todo'); return; }
+    if (newTodo === '') {
+      Alert.alert('Lỗi xảy ra', 'Không được để trống tên công việc', [
+        { text: 'Đã hiểu' },
+      ])
+      return;
+    }
     setTodos(oldTodos => [...oldTodos,
     { id: Math.floor(Math.random() * 100000), name: newTodo }
     ]);
@@ -29,23 +34,25 @@ export default function App() {
     );
   };
   return (
-    <View style={styles.container}>
-      <Text style={styles.title}>Hello world</Text>
-      <View style={styles.body}>
-        <TextInput style={styles.input} placeholder='New todo'
-          onChangeText={setTodo}
-          value={todo} />
-        <Pressable style={styles.addNewTodoButton} onPress={() => { addNewTodo(todo) }}>
-          <Text style={styles.textAddNew}>Add todo</Text>
-        </Pressable>
+    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+      <View style={styles.container}>
+        <Text style={styles.title}>Hello world</Text>
+        <View style={styles.body}>
+          <TextInput style={styles.input} placeholder='Tên công việc mới'
+            onChangeText={setTodo}
+            value={todo} />
+          <Pressable style={styles.addNewTodoButton} onPress={() => { addNewTodo(todo) }}>
+            <Text style={styles.textAddNew}>Thêm công việc mới</Text>
+          </Pressable>
+        </View>
+        <FlatList
+          style={styles.body2}
+          data={todos}
+          renderItem={renderItem}
+          keyExtractor={item => item.id + ''}
+        />
       </View>
-      <FlatList
-        style={styles.body2}
-        data={todos}
-        renderItem={renderItem}
-        keyExtractor={item => item.id + ''}
-      />
-    </View>
+    </TouchableWithoutFeedback>
   );
 }
 
