@@ -1,5 +1,6 @@
 import { useState } from 'react';
 import { StyleSheet, Text, View, Button, TextInput, ScrollView, FlatList, Pressable, Alert, TouchableWithoutFeedback, Keyboard } from 'react-native';
+import FlexBox from './components/flex.box';
 
 interface ITodo {
   id: number,
@@ -34,25 +35,26 @@ export default function App() {
     );
   };
   return (
-    <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
-      <View style={styles.container}>
-        <Text style={styles.title}>Hello world</Text>
-        <View style={styles.body}>
-          <TextInput style={styles.input} placeholder='Tên công việc mới'
-            onChangeText={setTodo}
-            value={todo} />
-          <Pressable style={styles.addNewTodoButton} onPress={() => { addNewTodo(todo) }}>
-            <Text style={styles.textAddNew}>Thêm công việc mới</Text>
-          </Pressable>
-        </View>
-        <FlatList
-          style={styles.body2}
-          data={todos}
-          renderItem={renderItem}
-          keyExtractor={item => item.id + ''}
-        />
-      </View>
-    </TouchableWithoutFeedback>
+    // <TouchableWithoutFeedback onPress={() => Keyboard.dismiss()}>
+    //   <View style={styles.container}>
+    //     <Text style={styles.title}>Hello world</Text>
+    //     <View style={styles.body}>
+    //       <TextInput style={styles.input} placeholder='Tên công việc mới'
+    //         onChangeText={setTodo}
+    //         value={todo} />
+    //       <Pressable style={styles.addNewTodoButton} onPress={() => { addNewTodo(todo) }}>
+    //         <Text style={styles.textAddNew}>Thêm công việc mới</Text>
+    //       </Pressable>
+    //     </View>
+    //     <FlatList
+    //       style={styles.body2}
+    //       data={todos}
+    //       renderItem={renderItem}
+    //       keyExtractor={item => item.id + ''}
+    //     />
+    //   </View>
+    // </TouchableWithoutFeedback>
+    <FlexBox />
   );
 }
 
