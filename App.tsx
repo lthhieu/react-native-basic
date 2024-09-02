@@ -5,6 +5,7 @@ import AboutScreen from "./components/review/about"
 import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
+import { PACIFICO } from "./utils/constant";
 
 
 SplashScreen.preventAutoHideAsync();
@@ -12,7 +13,7 @@ SplashScreen.preventAutoHideAsync();
 
 const App = () => {
   const [loaded, error] = useFonts({
-    'Pacifico-Regular': require('./assets/fonts/Pacifico-Regular.ttf'),
+    [PACIFICO]: require('./assets/fonts/Pacifico-Regular.ttf'),
   });
   useEffect(() => {
     if (loaded || error) {
