@@ -6,6 +6,8 @@ import { useFonts } from 'expo-font';
 import * as SplashScreen from 'expo-splash-screen';
 import { useEffect } from 'react';
 import { PACIFICO } from "./utils/constant";
+import { NavigationContainer } from '@react-navigation/native';
+import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
 
 
 SplashScreen.preventAutoHideAsync();
@@ -23,13 +25,26 @@ const App = () => {
   if (!loaded && !error) {
     return null;
   }
-  return (<View>
-    <HomeScreen />
-    <DetailScreen />
-    <AboutScreen />
-  </View>)
+
+  const Stack = createNativeStackNavigator();
+
+  return (<NavigationContainer>
+    <Stack.Navigator initialRouteName="Home" screenOptions={headerCss}>
+      <Stack.Screen name="Home" options={{ title: 'Trang chủ' }} component={HomeScreen} />
+      <Stack.Screen name="Detail" options={{ title: 'Chi tiết' }} component={DetailScreen} />
+      <Stack.Screen name="About" options={{ title: 'About' }} component={DetailScreen} />
+    </Stack.Navigator>
+  </NavigationContainer>)
 }
-const styles = StyleSheet.create({
-  helloWorld: { paddingTop: 40 }
-})
+const headerCss: NativeStackNavigationOptions = {
+  headerStyle: {
+    backgroundColor: '#f4511e',
+  },
+  headerTitleStyle: {
+    color: '#fff',
+    fontSize: 24,
+    fontFamily: PACIFICO
+  },
+  headerTitleAlign: 'center',
+}
 export default App
