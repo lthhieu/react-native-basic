@@ -8,6 +8,7 @@ import { useEffect } from 'react';
 import { PACIFICO } from "./utils/constant";
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator, NativeStackNavigationOptions } from '@react-navigation/native-stack';
+import { RootStackParamList } from "./utils/navigation";
 
 
 SplashScreen.preventAutoHideAsync();
@@ -26,13 +27,13 @@ const App = () => {
     return null;
   }
 
-  const Stack = createNativeStackNavigator();
+  const Stack = createNativeStackNavigator<RootStackParamList>();
 
   return (<NavigationContainer>
     <Stack.Navigator initialRouteName="Home" screenOptions={headerCss}>
       <Stack.Screen name="Home" options={{ title: 'Trang chủ' }} component={HomeScreen} />
-      <Stack.Screen name="Detail" options={{ title: 'Chi tiết' }} component={DetailScreen} />
-      <Stack.Screen name="About" options={{ title: 'About' }} component={DetailScreen} />
+      <Stack.Screen name="Detail" options={{ title: 'Chi tiết', headerBackTitle: 'hieu' }} component={DetailScreen} />
+      {/* <Stack.Screen name="About" options={{ title: 'About' }} component={DetailScreen} /> */}
     </Stack.Navigator>
   </NavigationContainer>)
 }
