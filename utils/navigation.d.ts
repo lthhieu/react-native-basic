@@ -11,3 +11,7 @@ export type RootStackParamList = {
 export type Props = NativeStackScreenProps<RootStackParamList, 'Detail'>;
 export type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
 export type RootProps = NavigationProp<RootStackParamList>
+export type RootDrawerParamList = {
+    HomeLayout: undefined;
+    About: undefined
+};
