@@ -1,10 +1,13 @@
 import { createNativeStackNavigator, NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import { RootProps, RootStackParamList } from "../../utils/navigation";
+import { RootDrawerParamList, RootProps, RootStackParamList } from "../../utils/navigation";
 import { PACIFICO } from "../../utils/constant";
 import DetailScreen from "../review/detail";
 import HomeScreen from "../review/home";
 import SimpleLineIcons from '@expo/vector-icons/SimpleLineIcons';
 import { TouchableOpacity } from "react-native-gesture-handler";
+import MaterialIcons from '@expo/vector-icons/MaterialIcons';
+import { useNavigation } from "@react-navigation/native";
+import { DrawerNavigationProp } from "@react-navigation/drawer";
 
 const AppStack = () => {
 
@@ -20,9 +23,15 @@ const AppStack = () => {
         </Stack.Navigator>
     )
 }
-const headerCss: NativeStackNavigationOptions = {
+const Left = () => {
+    const navigation = useNavigation<DrawerNavigationProp<RootDrawerParamList>>()
+    return (
+        <TouchableOpacity onPress={() => { navigation.openDrawer() }}><MaterialIcons name="menu" size={36} color="#fff" /></TouchableOpacity>
+    )
+}
+export const headerCss: NativeStackNavigationOptions = {
     headerStyle: {
-        backgroundColor: '#FF8A8A',
+        backgroundColor: '#FF8A8A'
     },
     headerTitleStyle: {
         color: '#fff',
@@ -30,5 +39,10 @@ const headerCss: NativeStackNavigationOptions = {
         fontFamily: PACIFICO
     },
     headerTitleAlign: 'center',
+    headerLeft: () => {
+        return (
+            <Left />
+        )
+    }
 }
 export default AppStack
