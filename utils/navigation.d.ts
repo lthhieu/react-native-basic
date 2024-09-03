@@ -1,4 +1,13 @@
-export type ScreenNames = ["Home", "Detail"]
-export type RootStackParamList = Record<ScreenNames[number], undefined>;
-
-export type StackNavigation = NavigationProp<RootStackParamList>;
+import { NavigationProp } from '@react-navigation/native';
+import type { NativeStackScreenProps } from '@react-navigation/native-stack';
+export type RootStackParamList = {
+    Home: undefined;
+    Detail: {
+        id: number;
+        title: string;
+        star: number
+    };
+};
+export type Props = NativeStackScreenProps<RootStackParamList, 'Detail'>;
+export type HomeProps = NativeStackScreenProps<RootStackParamList, 'Home'>;
+export type RootProps = NavigationProp<RootStackParamList>
