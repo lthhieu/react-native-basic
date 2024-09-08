@@ -18,12 +18,9 @@ const CustomModal = (props: IProps) => {
             Alert.alert('Lỗi xảy ra', 'Tiêu đề không được để trống!',)
             return
         }
-        if (!star) {
-            Alert.alert('Lỗi xảy ra', 'Đánh giá không được để trống!')
-            return
-        }
-        if (star > 5 || star < 1) {
-            Alert.alert('Lỗi xảy ra', 'Đánh giá từ 1 đến 5 thôi!')
+
+        if (star > 5 || star <= 0) {
+            Alert.alert('Lỗi xảy ra', 'Đánh giá từ 1 đến 5!')
             return
         }
         addNewReview({ id: Math.floor(Math.random() * 999999), title, star })

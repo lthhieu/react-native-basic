@@ -5,6 +5,7 @@ import { useState } from "react";
 import MaterialIcons from '@expo/vector-icons/MaterialIcons';
 import CustomModal from "./custom.modal";
 
+
 export interface IReview {
     id: number;
     title: string;
@@ -19,12 +20,19 @@ const HomeScreen = ({ route, navigation }: HomeProps) => {
     const addNewReview = (item: IReview) => {
         setReviews([...reviews, item])
     }
+    const deleteReview = (id: number) => {
+        setReviews(reviews.filter((item: IReview) => { return item.id !== id }))
+    }
     const renderReviewList = ({ item }: { item: IReview }) => {
-        return (<View style={styles.reviewItem}>
-            <TouchableOpacity onPress={() => navigation.navigate('Detail', item)}>
-                <Text style={globalStyles.appFont}>{item.title}</Text>
-            </TouchableOpacity>
-        </View>)
+        return (<TouchableOpacity onPress={() => navigation.navigate('Detail', item)}><View style={[styles.reviewItem, styles.headerHome]}>
+
+            <Text style={globalStyles.appFont}>{item.title}</Text>
+
+            <Pressable
+                onPress={() => { deleteReview(item.id) }}>
+                <MaterialIcons name="delete" size={24} color="#dc3545" />
+            </Pressable>
+        </View></TouchableOpacity>)
     }
     return (
         <View style={styles.body}>
