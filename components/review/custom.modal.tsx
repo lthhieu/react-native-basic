@@ -2,12 +2,34 @@ import { Alert, Button, Keyboard, Modal, Pressable, StyleSheet, Text, TextInput,
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Divider } from 'react-native-paper';
 import { globalStyles } from "../../utils/constant";
+import { useState } from "react";
+import { IReview } from "./home";
 interface IProps {
     modalVisible: boolean;
     setModalVisible: (value: boolean) => void;
+    addNewReview: (item: IReview) => void;
 }
 const CustomModal = (props: IProps) => {
-    const { modalVisible, setModalVisible } = props
+    const { modalVisible, setModalVisible, addNewReview } = props
+    const [title, setTitle] = useState<string>("")
+    const [star, setStar] = useState<string>("")
+    const addNew = (title: string, star: number) => {
+        if (!title) {
+            Alert.alert('Lỗi xảy ra', 'Tiêu đề không được để trống!',)
+            return
+        }
+        if (!star) {
+            Alert.alert('Lỗi xảy ra', 'Đánh giá không được để trống!')
+            return
+        }
+        if (star > 5 || star < 1) {
+            Alert.alert('Lỗi xảy ra', 'Đánh giá từ 1 đến 5 thôi!')
+            return
+        }
+        addNewReview({ id: Math.floor(Math.random() * 999999), title, star })
+        setModalVisible(false)
+        setTitle(''); setStar('')
+    }
     return (
         <Modal
             animationType="slide"
@@ -22,7 +44,7 @@ const CustomModal = (props: IProps) => {
                     <View style={styles.modalHeader}>
                         <Text style={[styles.textHeader, globalStyles.appFont]}>Header</Text>
                         <Pressable
-                            onPress={() => setModalVisible(!modalVisible)}>
+                            onPress={() => { setModalVisible(!modalVisible); setTitle(''); setStar('') }}>
                             <AntDesign name="close" size={24} color="black" />
                         </Pressable>
                     </View>
@@ -30,22 +52,22 @@ const CustomModal = (props: IProps) => {
                     <View style={styles.modalBody}>
                         <View style={styles.groupInput}>
                             <Text style={[styles.textTitle, globalStyles.appFont]}>Tiêu đề</Text>
-                            <TextInput style={[styles.textInput, globalStyles.appFont]} />
+                            <TextInput value={title} onChangeText={(value) => setTitle(value)} style={[styles.textInput, globalStyles.appFont]} />
                         </View>
                         <View style={styles.groupInput}>
                             <Text style={[styles.textTitle, globalStyles.appFont]}>Đánh giá</Text>
-                            <TextInput keyboardType="numeric" style={[styles.textInput, globalStyles.appFont]} />
+                            <TextInput value={star} onChangeText={(value) => setStar(value)} keyboardType="numeric" style={[styles.textInput, globalStyles.appFont]} />
                         </View>
                     </View>
                     <View style={styles.modalFooter}>
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
-                            onPress={() => setModalVisible(!modalVisible)}>
+                            onPress={() => { setModalVisible(!modalVisible); setTitle(''); setStar('') }}>
                             <Text style={[styles.textStyle, globalStyles.appFont]}>Hủy</Text>
                         </Pressable>
                         <Pressable
                             style={[styles.button, styles.buttonConfirm]}
-                            onPress={() => { }}>
+                            onPress={() => { addNew(title, +star) }}>
                             <Text style={[styles.textStyle, globalStyles.appFont]}>Xác nhận</Text>
                         </Pressable>
                     </View>

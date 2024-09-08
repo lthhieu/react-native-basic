@@ -16,6 +16,9 @@ const HomeScreen = ({ route, navigation }: HomeProps) => {
         { id: 1, title: 'React Native', star: 5 },
         { id: 2, title: 'ReactJS', star: 4 },
     ])
+    const addNewReview = (item: IReview) => {
+        setReviews([...reviews, item])
+    }
     const renderReviewList = ({ item }: { item: IReview }) => {
         return (<View style={styles.reviewItem}>
             <TouchableOpacity onPress={() => navigation.navigate('Detail', item)}>
@@ -33,7 +36,7 @@ const HomeScreen = ({ route, navigation }: HomeProps) => {
                 </Pressable>
 
             </View>
-            <CustomModal modalVisible={modalVisible} setModalVisible={setModalVisible} />
+            <CustomModal modalVisible={modalVisible} setModalVisible={setModalVisible} addNewReview={addNewReview} />
 
             <View>
                 <FlatList data={reviews} keyExtractor={item => item.id + ''} renderItem={renderReviewList} />
