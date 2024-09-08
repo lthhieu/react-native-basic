@@ -13,6 +13,8 @@ export interface IReview {
 }
 const HomeScreen = ({ route, navigation }: HomeProps) => {
     const [modalVisible, setModalVisible] = useState(false);
+    const [status, setStatus] = useState('')
+    const [dataUpdate, setDataUpdate] = useState<null | IReview>(null)
     const [reviews, setReviews] = useState<IReview[]>([
         { id: 1, title: 'React Native', star: 5 },
         { id: 2, title: 'ReactJS', star: 4 },
@@ -23,8 +25,13 @@ const HomeScreen = ({ route, navigation }: HomeProps) => {
     const deleteReview = (id: number) => {
         setReviews(reviews.filter((item: IReview) => { return item.id !== id }))
     }
+    const updateReview = (item: IReview) => {
+        setDataUpdate(item)
+        setStatus("Cập nhật")
+        setModalVisible(true)
+    }
     const renderReviewList = ({ item }: { item: IReview }) => {
-        return (<TouchableOpacity onPress={() => navigation.navigate('Detail', item)}><View style={[styles.reviewItem, styles.headerHome]}>
+        return (<TouchableOpacity onLongPress={() => { updateReview(item) }} onPress={() => navigation.navigate('Detail', item)}><View style={[styles.reviewItem, styles.headerHome]}>
 
             <Text style={globalStyles.appFont}>{item.title}</Text>
 
@@ -39,12 +46,12 @@ const HomeScreen = ({ route, navigation }: HomeProps) => {
             <View style={styles.headerHome}>
                 <Text style={[styles.header, globalStyles.appFont]}>Review list</Text>
                 <Pressable
-                    onPress={() => { setModalVisible(true) }}>
+                    onPress={() => { setModalVisible(true); setStatus('Thêm mới') }}>
                     <MaterialIcons name="add-box" size={36} color="#5b6b7b" />
                 </Pressable>
 
             </View>
-            <CustomModal modalVisible={modalVisible} setModalVisible={setModalVisible} addNewReview={addNewReview} />
+            <CustomModal setReviews={setReviews} reviews={reviews} setDataUpdate={setDataUpdate} dataUpdate={dataUpdate} status={status} modalVisible={modalVisible} setModalVisible={setModalVisible} addNewReview={addNewReview} />
 
             <View>
                 <FlatList data={reviews} keyExtractor={item => item.id + ''} renderItem={renderReviewList} />

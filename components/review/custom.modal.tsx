@@ -2,18 +2,30 @@ import { Alert, Button, Keyboard, Modal, Pressable, StyleSheet, Text, TextInput,
 import AntDesign from '@expo/vector-icons/AntDesign';
 import { Divider } from 'react-native-paper';
 import { globalStyles } from "../../utils/constant";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { IReview } from "./home";
 interface IProps {
     modalVisible: boolean;
     setModalVisible: (value: boolean) => void;
     addNewReview: (item: IReview) => void;
+    //update
+    status: string;
+    dataUpdate: IReview | null;
+    setDataUpdate: (item: IReview | null) => void,
+    reviews: IReview[];
+    setReviews: (item: IReview[]) => void
 }
 const CustomModal = (props: IProps) => {
-    const { modalVisible, setModalVisible, addNewReview } = props
+    const { modalVisible, setModalVisible, addNewReview, status, dataUpdate, setDataUpdate, reviews, setReviews } = props
     const [title, setTitle] = useState<string>("")
     const [star, setStar] = useState<string>("")
-    const addNew = (title: string, star: number) => {
+    useEffect(() => {
+        if (dataUpdate !== null) {
+            setTitle(dataUpdate.title)
+            setStar(dataUpdate.star + "")
+        }
+    }, [dataUpdate])
+    const addNewOrUpdate = (title: string, star: number) => {
         if (!title) {
             Alert.alert('Lỗi xảy ra', 'Tiêu đề không được để trống!',)
             return
@@ -23,9 +35,23 @@ const CustomModal = (props: IProps) => {
             Alert.alert('Lỗi xảy ra', 'Đánh giá từ 1 đến 5!')
             return
         }
-        addNewReview({ id: Math.floor(Math.random() * 999999), title, star })
-        setModalVisible(false)
-        setTitle(''); setStar('')
+        if (status === 'Thêm mới') {
+            addNewReview({ id: Math.floor(Math.random() * 999999), title, star })
+            setModalVisible(false)
+            setTitle(''); setStar('')
+        } else {
+            let objIndex = reviews.findIndex(obj => obj.id === dataUpdate?.id);
+            if (objIndex !== -1 && dataUpdate?.id) {
+                reviews[objIndex] = { id: dataUpdate?.id, star: star, title: title }
+
+                setReviews(reviews)
+                console.log(reviews)
+                setModalVisible(false)
+                setTitle(''); setStar(''); setDataUpdate(null)
+            } else {
+                Alert.alert('Lỗi xảy ra', 'Vui lòng thử lại sau!')
+            }
+        }
     }
     return (
         <Modal
@@ -39,14 +65,14 @@ const CustomModal = (props: IProps) => {
             <View style={styles.centeredView}>
                 <View style={styles.modalView}>
                     <View style={styles.modalHeader}>
-                        <Text style={[styles.textHeader, globalStyles.appFont]}>Header</Text>
+                        <Text style={[styles.textHeader, globalStyles.appFont]}>{status}</Text>
                         <Pressable
                             onPress={() => { setModalVisible(!modalVisible); setTitle(''); setStar('') }}>
                             <AntDesign name="close" size={24} color="black" />
                         </Pressable>
                     </View>
                     <Divider />
-                    <View style={styles.modalBody}>
+                    {status == 'Cập nhật' ? <View style={styles.modalBody}>
                         <View style={styles.groupInput}>
                             <Text style={[styles.textTitle, globalStyles.appFont]}>Tiêu đề</Text>
                             <TextInput value={title} onChangeText={(value) => setTitle(value)} style={[styles.textInput, globalStyles.appFont]} />
@@ -55,16 +81,25 @@ const CustomModal = (props: IProps) => {
                             <Text style={[styles.textTitle, globalStyles.appFont]}>Đánh giá</Text>
                             <TextInput value={star} onChangeText={(value) => setStar(value)} keyboardType="numeric" style={[styles.textInput, globalStyles.appFont]} />
                         </View>
-                    </View>
+                    </View> : <View style={styles.modalBody}>
+                        <View style={styles.groupInput}>
+                            <Text style={[styles.textTitle, globalStyles.appFont]}>Tiêu đề</Text>
+                            <TextInput value={title} onChangeText={(value) => setTitle(value)} style={[styles.textInput, globalStyles.appFont]} />
+                        </View>
+                        <View style={styles.groupInput}>
+                            <Text style={[styles.textTitle, globalStyles.appFont]}>Đánh giá</Text>
+                            <TextInput value={star} onChangeText={(value) => setStar(value)} keyboardType="numeric" style={[styles.textInput, globalStyles.appFont]} />
+                        </View>
+                    </View>}
                     <View style={styles.modalFooter}>
                         <Pressable
                             style={[styles.button, styles.buttonClose]}
-                            onPress={() => { setModalVisible(!modalVisible); setTitle(''); setStar('') }}>
+                            onPress={() => { setModalVisible(!modalVisible); setTitle(''); setStar(''); setDataUpdate(null) }}>
                             <Text style={[styles.textStyle, globalStyles.appFont]}>Hủy</Text>
                         </Pressable>
                         <Pressable
                             style={[styles.button, styles.buttonConfirm]}
-                            onPress={() => { addNew(title, +star) }}>
+                            onPress={() => { addNewOrUpdate(title, +star) }}>
                             <Text style={[styles.textStyle, globalStyles.appFont]}>Xác nhận</Text>
                         </Pressable>
                     </View>
