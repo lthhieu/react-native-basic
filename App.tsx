@@ -4,6 +4,7 @@ import { useEffect } from 'react';
 import { PACIFICO } from "./utils/constant";
 import { NavigationContainer } from '@react-navigation/native';
 import AppDrawer from "./components/navigation/app.drawer";
+import { SafeAreaView } from 'react-native-safe-area-context';
 SplashScreen.preventAutoHideAsync();
 
 const App = () => {
@@ -19,9 +20,11 @@ const App = () => {
     return null;
   }
   return (
-    <NavigationContainer>
-      <AppDrawer />
-    </NavigationContainer>
+    <SafeAreaView style={{ flex: 1 }}>
+      <NavigationContainer>
+        <AppDrawer />
+      </NavigationContainer>
+    </SafeAreaView>
   )
 }
 export default App

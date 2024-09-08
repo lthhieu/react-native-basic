@@ -1,6 +1,6 @@
 import { Button, FlatList, StyleSheet, Text, TouchableOpacity, View } from "react-native"
 import { globalStyles } from "../../utils/constant"
-import { HomeProps } from "../../utils/navigation";
+import { HomeProps } from "../../types/navigation";
 import { useState } from "react";
 
 export interface IReview {

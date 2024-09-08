@@ -1,7 +1,7 @@
 import { createDrawerNavigator, DrawerNavigationOptions } from "@react-navigation/drawer";
 import AboutScreen from "../review/about";
 import AppStack from "./app.stack";
-import { RootDrawerParamList } from "../../utils/navigation";
+import { RootDrawerParamList } from "../../types/navigation";
 import { PACIFICO } from "../../utils/constant";
 
 const AppDrawer = () => {

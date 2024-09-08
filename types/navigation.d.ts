@@ -15,3 +15,4 @@ export type RootDrawerParamList = {
     HomeLayout: undefined;
     About: undefined
 };
+declare module "*.png"

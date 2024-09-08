@@ -1,5 +1,5 @@
 import { createNativeStackNavigator, NativeStackNavigationOptions } from "@react-navigation/native-stack";
-import { RootDrawerParamList, RootProps, RootStackParamList } from "../../utils/navigation";
+import { RootDrawerParamList, RootProps, RootStackParamList } from "../../types/navigation";
 import { PACIFICO } from "../../utils/constant";
 import DetailScreen from "../review/detail";
 import HomeScreen from "../review/home";
